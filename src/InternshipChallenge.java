@@ -13,7 +13,8 @@ public class InternshipChallenge {
         try {
             System.out.println(controller.execute(command));
         } catch (InvalidCommandException e) {
-            System.err.println("Command not found. Exiting now...");
+            System.err.println(e.getReason());
+            System.err.println("Exiting now...");
         }
     }
 
