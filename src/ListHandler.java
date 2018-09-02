@@ -25,7 +25,7 @@ public class ListHandler {
 
     public boolean contains(String url) throws IOException {
         try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-            Stream<String> result = stream.filter(line -> line.contains(url));
+            Stream<String> result = stream.filter(line -> line.equals(url));
             return result.count() > 0;
         }
     }
