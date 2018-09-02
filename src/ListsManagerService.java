@@ -23,11 +23,9 @@ public class ListsManagerService {
             throw new InvalidCommandException("Cannot add an element in whitelist if it is already in blacklist.");
         if(whitelist.contains(url))
             throw new InvalidCommandException("Url already in whitelist.");
-        try {
-            whitelist.add(url);
-        } catch (IOException e) {
-            return "Could not add to file.";
-        }
+
+        whitelist.add(url);
+
         return "Successfully added to whitelist.";
     }
 
@@ -36,28 +34,26 @@ public class ListsManagerService {
             throw new InvalidCommandException("Cannot add an element in blacklist if it is already in whitelist.");
         if(blacklist.contains(url))
             throw new InvalidCommandException("Url already in blacklist.");
-        try {
-            blacklist.add(url);
-        } catch (IOException e) {
-            return "Could not add to file.";
-        }
+
+        blacklist.add(url);
+
         return "Successfully added to blacklist.";
     }
 
-    public String showWhiteList() {
-        return whitelist.getUrls();
+    public String showWhiteList() throws IOException {
+        return String.join("\n", whitelist.getUrls());
     }
 
-    public String showBlackList() {
-        return blacklist.getUrls();
+    public String showBlackList() throws IOException {
+        return String.join("\n", blacklist.getUrls());
     }
 
-    public String removeFromWhiteList(String url) {
+    public String removeFromWhiteList(String url) throws IOException {
         whitelist.remove(url);
         return "Successfully removed from whitelist.";
     }
 
-    public String removeFromBlackList(String url) {
+    public String removeFromBlackList(String url) throws IOException {
         blacklist.remove(url);
         return "Successfully removed from blacklist.";
     }

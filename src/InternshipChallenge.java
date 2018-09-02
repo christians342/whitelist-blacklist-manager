@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -14,6 +15,9 @@ public class InternshipChallenge {
             System.out.println(controller.execute(command));
         } catch (InvalidCommandException e) {
             System.err.println(e.getReason());
+        } catch (IOException e) {
+            System.err.println("An error occurred while manipulating a file.");
+        } finally {
             System.err.println("Exiting now...");
         }
     }

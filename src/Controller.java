@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -11,7 +12,7 @@ public class Controller {
         this.listsManagerService = new ListsManagerService();
     }
 
-    public String execute(ArrayList<String> command) throws InvalidCommandException {
+    public String execute(ArrayList<String> command) throws InvalidCommandException, IOException {
 
         checkValidity(command);
 

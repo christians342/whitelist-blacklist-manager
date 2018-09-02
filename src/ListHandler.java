@@ -1,11 +1,15 @@
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.nio.file.StandardOpenOption.APPEND;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
 
 
 public class ListHandler {
@@ -33,7 +37,10 @@ public class ListHandler {
         return Files.readAllLines(Paths.get(fileName));
     }
 
-    public void remove(String url) {
-
+    public void remove(String url) throws IOException {
+        try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
+            List<String> result = stream.filter(line -> !line.contains(url)).collect(Collectors.toList());
+            Files.write(Paths.get(fileName), result, TRUNCATE_EXISTING);
+        }
     }
 }
