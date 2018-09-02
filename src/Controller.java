@@ -5,36 +5,34 @@ import java.util.ArrayList;
 
 public class Controller {
 
-    private ListHandler whitelist;
-    private ListHandler blacklist;
+    private ListsManagerService listsManagerService;
 
     public Controller() {
-        this.whitelist = new ListHandler("whitelist.txt");
-        this.whitelist = new ListHandler("blacklist.txt");
+        this.listsManagerService = new ListsManagerService();
     }
 
     public String execute(ArrayList<String> command) throws InvalidCommandException {
 
-        if(command.size() < 1 || command.size() > 2){
+        if(command.size() < 1 || command.size() > 2)
             throw new InvalidCommandException("Invalid number of arguments.");
-        }
-
-        if (command.size() == 2){
-            try {
-                URL url = new URL(command.get(1));
-                url.toURI();
-            } catch (MalformedURLException | URISyntaxException e) {
-                throw new InvalidCommandException("Mal-formatted URL.");
-            }
+        else if (command.size() == 2){
+                try {
+                    URL url = new URL(command.get(1));
+                    url.toURI();
+                } catch (MalformedURLException | URISyntaxException e) {
+                    throw new InvalidCommandException("Mal-formatted URL.");
+                }
+            //Was going to escape the url here to avoid it messing up my text files
+            //Found no good way to do it in plain Java (without external libs)
         }
 
         switch (command.get(0)){
             case "verify" :
-                return this.verify(command.get(1));
+                return this.listsManagerService.verify(command.get(1));
             case "add-whitelist" :
-                break;
+                return this.listsManagerService.addToWhiteList(command.get(1));
             case "add-blacklist" :
-                break;
+                return this.listsManagerService.addToBlackList(command.get(1));
             case "show-whitelist" :
                 break;
             case "show-blacklist" :
@@ -48,13 +46,5 @@ public class Controller {
         }
 
         return "";
-    }
-
-    private String verify(String url) {
-        if(whitelist.contains(url))
-            return "safe";
-        else if(whitelist.contains(url))
-            return "unsafe";
-        else return "unknown";
     }
 }
