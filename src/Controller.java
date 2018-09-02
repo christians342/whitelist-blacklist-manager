@@ -8,13 +8,13 @@ public class Controller {
 
     private ListsManagerService listsManagerService;
 
-    public Controller() {
+    public Controller() throws IOException {
         this.listsManagerService = new ListsManagerService();
     }
 
     public String execute(ArrayList<String> command) throws InvalidCommandException, IOException {
 
-        checkValidity(command);
+        checkStructure(command);
 
         switch (command.get(0)){
             case "verify" :
@@ -36,7 +36,7 @@ public class Controller {
         }
     }
 
-    private void checkValidity(ArrayList<String> command) throws InvalidCommandException {
+    private void checkStructure(ArrayList<String> command) throws InvalidCommandException {
         if(command.size() < 1 || command.size() > 2)
             throw new InvalidCommandException("Invalid number of arguments.");
         else if (command.size() == 2){

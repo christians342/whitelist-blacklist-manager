@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,8 +17,10 @@ public class ListHandler {
 
      private String fileName;
 
-    public ListHandler(String fileName) {
+    public ListHandler(String fileName) throws IOException {
         this.fileName = fileName;
+        File myFile = new File(fileName);
+        myFile.createNewFile();
     }
 
     public boolean contains(String url) throws IOException {

@@ -5,15 +5,15 @@ public class ListsManagerService {
     private ListHandler whitelist;
     private ListHandler blacklist;
 
-    public ListsManagerService() {
+    public ListsManagerService() throws IOException {
         this.whitelist = new ListHandler("whitelist.txt");
-        this.blacklist = new ListHandler("blacklist.txt");;
+        this.blacklist = new ListHandler("blacklist.txt");
     }
 
     public String verify(String url) throws IOException {
         if(whitelist.contains(url))
             return "safe";
-        else if(whitelist.contains(url))
+        else if(blacklist.contains(url))
             return "unsafe";
         else return "unknown";
     }
