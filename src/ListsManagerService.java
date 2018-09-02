@@ -16,27 +16,39 @@ public class ListsManagerService {
         else return "unknown";
     }
 
-    public String addToWhiteList(String url) {
-        return "Successfully added to whitelist";
+    public String addToWhiteList(String url) throws InvalidCommandException {
+        if(blacklist.contains(url))
+            throw new InvalidCommandException("Cannot add an element in whitelist if it is already in blacklist.");
+        if(whitelist.contains(url))
+            throw new InvalidCommandException("Url already in whitelist.");
+        whitelist.add(url);
+        return "Successfully added to whitelist.";
     }
 
-    public String addToBlackList(String url) {
-        return "Successfully added to blacklist";
+    public String addToBlackList(String url) throws InvalidCommandException {
+        if(whitelist.contains(url))
+            throw new InvalidCommandException("Cannot add an element in blacklist if it is already in whitelist.");
+        if(blacklist.contains(url))
+            throw new InvalidCommandException("Url already in blacklist.");
+        blacklist.add(url);
+        return "Successfully added to blacklist.";
     }
 
     public String showWhiteList() {
-        return "whitelist";
+        return whitelist.getUrls();
     }
 
     public String showBlackList() {
-        return "blacklist";
+        return blacklist.getUrls();
     }
 
     public String removeFromWhiteList(String url) {
-        return "Successfully removed from whitelist";
+        whitelist.remove(url);
+        return "Successfully removed from whitelist.";
     }
 
     public String removeFromBlackList(String url) {
-        return "Successfully removed from blacklist";
+        blacklist.remove(url);
+        return "Successfully removed from blacklist.";
     }
 }
