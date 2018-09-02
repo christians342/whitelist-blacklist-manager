@@ -1,18 +1,36 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import static java.nio.file.StandardOpenOption.APPEND;
+
+
 public class ListHandler {
-    public ListHandler(String filename) {
 
+     private String fileName;
+
+    public ListHandler(String fileName) {
+        this.fileName = fileName;
     }
 
-    public boolean contains(String url) {
-        return false;
+    public boolean contains(String url) throws IOException {
+        try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
+            Stream<String> result = stream.filter(line -> line.contains(url));
+            return result.count() > 0;
+        }
     }
 
-    public void add(String url) {
-
+    public void add(String url) throws IOException {
+        List<String> urls = new ArrayList<String>();
+        urls.add(url);
+        Files.write(Paths.get(fileName), urls, APPEND);
     }
 
-    public String getUrls() {
-        return "urls";
+    public List<String> getUrls() throws IOException {
+        return Files.readAllLines(Paths.get(fileName));
     }
 
     public void remove(String url) {

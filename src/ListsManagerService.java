@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 public class ListsManagerService {
 
     private ListHandler whitelist;
@@ -8,7 +10,7 @@ public class ListsManagerService {
         this.blacklist = new ListHandler("blacklist.txt");;
     }
 
-    public String verify(String url) {
+    public String verify(String url) throws IOException {
         if(whitelist.contains(url))
             return "safe";
         else if(whitelist.contains(url))
@@ -16,21 +18,29 @@ public class ListsManagerService {
         else return "unknown";
     }
 
-    public String addToWhiteList(String url) throws InvalidCommandException {
+    public String addToWhiteList(String url) throws InvalidCommandException, IOException {
         if(blacklist.contains(url))
             throw new InvalidCommandException("Cannot add an element in whitelist if it is already in blacklist.");
         if(whitelist.contains(url))
             throw new InvalidCommandException("Url already in whitelist.");
-        whitelist.add(url);
+        try {
+            whitelist.add(url);
+        } catch (IOException e) {
+            return "Could not add to file.";
+        }
         return "Successfully added to whitelist.";
     }
 
-    public String addToBlackList(String url) throws InvalidCommandException {
+    public String addToBlackList(String url) throws InvalidCommandException, IOException {
         if(whitelist.contains(url))
             throw new InvalidCommandException("Cannot add an element in blacklist if it is already in whitelist.");
         if(blacklist.contains(url))
             throw new InvalidCommandException("Url already in blacklist.");
-        blacklist.add(url);
+        try {
+            blacklist.add(url);
+        } catch (IOException e) {
+            return "Could not add to file.";
+        }
         return "Successfully added to blacklist.";
     }
 
