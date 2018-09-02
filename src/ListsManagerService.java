@@ -2,59 +2,63 @@ import java.io.IOException;
 
 public class ListsManagerService {
 
-    private ListHandler whitelist;
-    private ListHandler blacklist;
+    private ListHandler whiteList;
+    private ListHandler blackList;
 
     public ListsManagerService() throws IOException {
-        this.whitelist = new ListHandler("whitelist.txt");
-        this.blacklist = new ListHandler("blacklist.txt");
+        this.whiteList = new ListHandler("whitelist.txt");
+        this.blackList = new ListHandler("blacklist.txt");
     }
 
     public String verify(String url) throws IOException {
-        if(whitelist.contains(url))
+        if(whiteList.contains(url))
             return "safe";
-        else if(blacklist.contains(url))
+        else if(blackList.contains(url))
             return "unsafe";
         else return "unknown";
     }
 
     public String addToWhiteList(String url) throws InvalidCommandException, IOException {
-        if(blacklist.contains(url))
-            throw new InvalidCommandException("Cannot add an element in whitelist if it is already in blacklist.");
-        if(whitelist.contains(url))
-            throw new InvalidCommandException("Url already in whitelist.");
+        if(blackList.contains(url))
+            throw new InvalidCommandException("Cannot add an element in whiteList if it is already in blackList.");
+        if(whiteList.contains(url))
+            throw new InvalidCommandException("Url already in whiteList.");
 
-        whitelist.add(url);
+        whiteList.add(url);
 
-        return "Successfully added to whitelist.";
+        return "Successfully added to whiteList.";
     }
 
     public String addToBlackList(String url) throws InvalidCommandException, IOException {
-        if(whitelist.contains(url))
-            throw new InvalidCommandException("Cannot add an element in blacklist if it is already in whitelist.");
-        if(blacklist.contains(url))
-            throw new InvalidCommandException("Url already in blacklist.");
+        if(whiteList.contains(url))
+            throw new InvalidCommandException("Cannot add an element in blackList if it is already in whiteList.");
+        if(blackList.contains(url))
+            throw new InvalidCommandException("Url already in blackList.");
 
-        blacklist.add(url);
+        blackList.add(url);
 
-        return "Successfully added to blacklist.";
+        return "Successfully added to blackList.";
     }
 
     public String showWhiteList() throws IOException {
-        return String.join("\n", whitelist.getUrls());
+        return String.join("\n", whiteList.getUrls());
     }
 
     public String showBlackList() throws IOException {
-        return String.join("\n", blacklist.getUrls());
+        return String.join("\n", blackList.getUrls());
     }
 
-    public String removeFromWhiteList(String url) throws IOException {
-        whitelist.remove(url);
-        return "Successfully removed from whitelist.";
+    public String removeFromWhiteList(String url) throws IOException, InvalidCommandException {
+        if(!whiteList.contains(url))
+            throw new InvalidCommandException("Cannot remove element from whiteList if it is already not in whiteList.");
+        whiteList.remove(url);
+        return "Successfully removed from whiteList.";
     }
 
-    public String removeFromBlackList(String url) throws IOException {
-        blacklist.remove(url);
-        return "Successfully removed from blacklist.";
+    public String removeFromBlackList(String url) throws IOException, InvalidCommandException {
+        if(!blackList.contains(url))
+            throw new InvalidCommandException("Cannot remove element from blackList if it is already not in blackList.");
+        blackList.remove(url);
+        return "Successfully removed from blackList.";
     }
 }
