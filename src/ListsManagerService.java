@@ -23,4 +23,20 @@ public class ListsManagerService {
     public String addToBlackList(String url) {
         return "Successfully added to blacklist";
     }
+
+    public String showWhiteList() {
+        return "whitelist";
+    }
+
+    public String showBlackList() {
+        return "blacklist";
+    }
+
+    public String removeFromWhiteList(String url) {
+        return "Successfully removed from whitelist";
+    }
+
+    public String removeFromBlackList(String url) {
+        return "Successfully removed from blacklist";
+    }
 }
